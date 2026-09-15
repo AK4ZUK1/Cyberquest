@@ -57,6 +57,17 @@ return [
             'throw' => false,
         ],
 
+        'supabase' => [
+        'driver' => 's3',
+        'key' => env('SUPABASE_KEY', env('AWS_ACCESS_KEY_ID')),
+        'secret' => env('SUPABASE_SECRET', env('AWS_SECRET_ACCESS_KEY')),
+        'region' => env('SUPABASE_DEFAULT_REGION', 'ap-southeast-1'), // Match your Supabase region if needed
+        'bucket' => env('SUPABASE_BUCKET', 'modules'),
+        'url' => env('SUPABASE_URL'),
+        'endpoint' => env('SUPABASE_ENDPOINT', 'https://wothjkwgjnqjrmrweqzh.supabase.co/storage/v1/s3'),
+        'use_path_style_endpoint' => true,
+        ],
+
     ],
 
     /*

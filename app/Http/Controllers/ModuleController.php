@@ -27,9 +27,16 @@ class ModuleController extends Controller
             'pdf_file'    => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $pdfPath = null;
+        $pdfUrl = null;
         if ($request->hasFile('pdf_file')) {
-            $pdfPath = $request->file('pdf_file')->store('modules/pdf', 'public');
+            $file = $request->file('pdf_file');
+            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            
+            // Upload to Supabase Storage 'modules' bucket
+            $path = $file->storeAs('uploads/pdfs', $fileName, 'supabase');
+            
+            // Generate public cloud URL
+            $pdfUrl = Storage::disk('supabase')->url($path);
         }
 
         Module::create([
@@ -37,7 +44,7 @@ class ModuleController extends Controller
             'category'    => $request->category,
             'trainer_id'  => $request->trainer_id,
             'description' => $request->description,
-            'pdf_path'    => $pdfPath,
+            'pdf_path'    => $pdfUrl, // Stores the full public Supabase URL
         ]);
 
         return redirect()->route('admin.modul')->with('success', 'Modul berjaya ditambah.');
@@ -53,11 +60,16 @@ class ModuleController extends Controller
             'pdf_file'    => 'nullable|mimes:pdf|max:10240',
         ]);
 
+        $pdfUrl = $module->pdf_path;
+
         if ($request->hasFile('pdf_file')) {
-            if ($module->pdf_path && Storage::disk('public')->exists($module->pdf_path)) {
-                Storage::disk('public')->delete($module->pdf_path);
-            }
-            $module->pdf_path = $request->file('pdf_file')->store('modules/pdf', 'public');
+            // Optional: Delete old file from Supabase if stored path can be parsed, 
+            // otherwise just upload the new one to avoid breaking changes.
+            $file = $request->file('pdf_file');
+            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            
+            $path = $file->storeAs('uploads/pdfs', $fileName, 'supabase');
+            $pdfUrl = Storage::disk('supabase')->url($path);
         }
 
         $module->update([
@@ -65,7 +77,7 @@ class ModuleController extends Controller
             'category'    => $request->category,
             'trainer_id'  => $request->trainer_id,
             'description' => $request->description,
-            'pdf_path'    => $module->pdf_path,
+            'pdf_path'    => $pdfUrl,
         ]);
 
         return redirect()->route('admin.modul')->with('success', 'Modul berjaya dikemas kini.');
@@ -73,10 +85,7 @@ class ModuleController extends Controller
 
     public function destroy(Module $module)
     {
-        if ($module->pdf_path && Storage::disk('public')->exists($module->pdf_path)) {
-            Storage::disk('public')->delete($module->pdf_path);
-        }
-
+        // Delete record from database (you can also add remote deletion logic here if needed)
         $module->delete();
 
         return redirect()->route('admin.modul')->with('success', 'Modul berjaya dipadam.');

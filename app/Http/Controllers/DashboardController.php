@@ -10,28 +10,26 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display the admin dashboard with live analytics from Supabase.
-     */
     public function index()
     {
-        // 1. Live counts queried directly from Supabase tables
+        // 1. Query dynamic record counts directly from Supabase
         $totalPks         = Pks::count();
         $totalFacilitator = Facilitator::count();
         $totalTrainer     = Trainer::count();
         $totalModule      = Module::count();
 
-        // 2. Fetch recent records for preview widgets
-        $recentPks      = Pks::latest()->take(5)->get();
-        $recentTrainers = Trainer::latest()->take(5)->get();
+        // 2. Fetch live recent records
+        $recentModules    = Module::latest()->take(5)->get();
+        $recentFacilitators = Facilitator::latest()->take(5)->get();
+        $recentTrainers   = Trainer::latest()->take(5)->get();
 
-        // 3. Return data to your Blade view
         return view('admin.dashboard', compact(
             'totalPks',
             'totalFacilitator',
             'totalTrainer',
             'totalModule',
-            'recentPks',
+            'recentModules',
+            'recentFacilitators',
             'recentTrainers'
         ));
     }

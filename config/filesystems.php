@@ -57,8 +57,6 @@ return [
             'throw' => false,
         ],
 
-        'disks' => [
-        // ... other disks
         'supabase' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -68,8 +66,7 @@ return [
             'url' => env('SUPABASE_ENDPOINT'),
             'endpoint' => env('SUPABASE_ENDPOINT'),
             'use_path_style_endpoint' => true,
-            'throw' => true, // Optional: throws exceptions instead of failing silently so you can catch them
-            ],
+            'throw' => true,
         ],
 
     ],

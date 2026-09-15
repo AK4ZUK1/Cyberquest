@@ -47,7 +47,8 @@
                         <div class="flex items-center space-x-4 pt-1 text-xs text-slate-400 font-medium">
                             <span>Dicipta oleh <strong class="text-slate-700">{{ $module->trainer->name ?? 'Pentadbir Sistem' }}</strong> pada {{ $module->created_at->format('d M Y') }}</span>
                             @if($module->pdf_path)
-                                <a href="{{ asset('storage/' . $module->pdf_path) }}" target="_blank" class="text-[#4F46E5] font-semibold hover:underline flex items-center space-x-1">
+                                <!-- FIXED: Direct Supabase URL output without asset('storage/') -->
+                                <a href="{{ $module->pdf_path }}" target="_blank" class="text-[#4F46E5] font-semibold hover:underline flex items-center space-x-1">
                                     <i class="fa-solid fa-file-pdf text-rose-500"></i>
                                     <span>Lihat PDF</span>
                                 </a>
@@ -132,7 +133,7 @@
                                 <i class="fa-solid fa-file-pdf text-2xl text-white/70 mb-2"></i>
                                 <input type="file" name="pdf_file" accept=".pdf" class="block w-full text-xs text-white/80 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white file:text-[#4F46E5] hover:file:bg-indigo-50">
                                 @if($module->pdf_path)
-                                    <p class="text-xs text-emerald-300 mt-2 font-medium">Fail sedia ada: {{ basename($module->pdf_path) }}</p>
+                                    <p class="text-xs text-emerald-300 mt-2 font-medium">Fail sedia ada: {{ basename(parse_url($module->pdf_path, PHP_URL_PATH)) }}</p>
                                 @endif
                             </div>
                         </div>

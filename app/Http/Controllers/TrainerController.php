@@ -32,7 +32,7 @@ class TrainerController extends Controller
 
         Trainer::create($validated);
 
-        return redirect()->route('admin.jurulatih.index')
+        return redirect()->route('admin.jurulatih')
                          ->with('success', 'Jurulatih berjaya ditambahkan.');
     }
 
@@ -52,7 +52,7 @@ class TrainerController extends Controller
 
         $trainer->update($validated);
 
-        return redirect()->route('admin.jurulatih.index')
+        return redirect()->route('admin.jurulatih')
                          ->with('success', 'Maklumat jurulatih berjaya dikemaskini.');
     }
 
@@ -64,7 +64,7 @@ class TrainerController extends Controller
         $trainer = Trainer::findOrFail($id);
         $trainer->delete();
 
-        return redirect()->route('admin.jurulatih.index')
+        return redirect()->route('admin.jurulatih')
                          ->with('success', 'Rekod jurulatih berjaya dipadam.');
     }
 }

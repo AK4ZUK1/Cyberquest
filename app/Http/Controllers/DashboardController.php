@@ -6,30 +6,33 @@ use App\Models\Pks;
 use App\Models\Facilitator;
 use App\Models\Trainer;
 use App\Models\Module;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    /**
+     * Display the admin dashboard with live analytics from Supabase.
+     */
     public function index()
     {
-        // 1. Fetch Real-time Counts (Ordered: PKS -> Fasilitator -> Jurulatih -> Modul)
-        $totalPks          = Pks::count();
-        $totalFacilitators = Facilitator::count();
-        $totalTrainers     = Trainer::count();
-        $totalModules      = Module::count();
+        // 1. Live counts queried directly from Supabase tables
+        $totalPks         = Pks::count();
+        $totalFacilitator = Facilitator::count();
+        $totalTrainer     = Trainer::count();
+        $totalModule      = Module::count();
 
-        // 2. Fetch Latest Activity
-        $recentModules      = Module::with('trainer')->latest()->take(5)->get();
-        $recentTrainers     = Trainer::latest()->take(5)->get();
-        $recentFacilitators = Facilitator::latest()->take(5)->get();
+        // 2. Fetch recent records for preview widgets
+        $recentPks      = Pks::latest()->take(5)->get();
+        $recentTrainers = Trainer::latest()->take(5)->get();
 
+        // 3. Return data to your Blade view
         return view('admin.dashboard', compact(
             'totalPks',
-            'totalFacilitators',
-            'totalTrainers',
-            'totalModules',
-            'recentModules',
-            'recentTrainers',
-            'recentFacilitators'
+            'totalFacilitator',
+            'totalTrainer',
+            'totalModule',
+            'recentPks',
+            'recentTrainers'
         ));
     }
 }

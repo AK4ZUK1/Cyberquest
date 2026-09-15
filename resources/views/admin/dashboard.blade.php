@@ -1,169 +1,135 @@
-@extends('layouts.admin')
-
-@section('title', 'Papan Pemuka')
+@extends('layouts.admin') {{-- Adjust to match your master layout if different --}}
 
 @section('content')
-<div class="space-y-8">
-    
-    <!-- Page Header Title -->
-    <div>
-        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Papan Pemuka</h1>
-        <p class="text-sm text-slate-500 mt-1">Ringkasan masa nyata dan aktiviti terkini platform CyberQuest.</p>
-    </div>
+<div class="container mx-auto px-6 py-8">
+    <h3 class="text-3xl font-medium text-gray-700 mb-6">Papan Pemuka (Dashboard)</h3>
 
-    <!-- Stat Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <!-- Metric Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         
-        <!-- Jumlah PKS Card -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-start justify-between">
-            <div class="space-y-2">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah PKS</span>
-                <div class="text-3xl font-extrabold text-slate-900">2</div>
-                <a href="{{ route('admin.pks') }}" class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
-                    Urus PKS <span class="ml-1">&rarr;</span>
-                </a>
+        <!-- PKS Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs border border-gray-100">
+            <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H7m4 0v10"></path>
+                </svg>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-store text-xl"></i>
-            </div>
-        </div>
-
-        <!-- Jumlah Fasilitator Card -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-start justify-between">
-            <div class="space-y-2">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Fasilitator</span>
-                <div class="text-3xl font-extrabold text-slate-900">2</div>
-                <a href="{{ route('admin.fasilitator') }}" class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
-                    Urus Fasilitator <span class="ml-1">&rarr;</span>
-                </a>
-            </div>
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-user-tie text-xl"></i>
+            <div>
+                <p class="mb-1 text-sm font-medium text-gray-600">Jumlah PKS</p>
+                <p class="text-2xl font-semibold text-gray-700">{{ $totalPks }}</p>
             </div>
         </div>
 
-        <!-- Jumlah Jurulatih Card -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-start justify-between">
-            <div class="space-y-2">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Jurulatih</span>
-                <div class="text-3xl font-extrabold text-slate-900">1</div>
-                <a href="{{ route('admin.jurulatih') }}" class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
-                    Urus Jurulatih <span class="ml-1">&rarr;</span>
-                </a>
+        <!-- Fasilitator Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs border border-gray-100">
+            <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-graduation-cap text-xl"></i>
+            <div>
+                <p class="mb-1 text-sm font-medium text-gray-600">Jumlah Fasilitator</p>
+                <p class="text-2xl font-semibold text-gray-700">{{ $totalFacilitator }}</p>
             </div>
         </div>
 
-        <!-- Jumlah Modul Card -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-start justify-between">
-            <div class="space-y-2">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Jumlah Modul</span>
-                <div class="text-3xl font-extrabold text-slate-900">1</div>
-                <a href="{{ route('admin.modul') }}" class="inline-flex items-center text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
-                    Urus Modul <span class="ml-1">&rarr;</span>
-                </a>
+        <!-- Jurulatih Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs border border-gray-100">
+            <div class="p-3 mr-4 text-purple-500 bg-purple-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                <i class="fa-solid fa-book-open text-xl"></i>
+            <div>
+                <p class="mb-1 text-sm font-medium text-gray-600">Jumlah Jurulatih</p>
+                <p class="text-2xl font-semibold text-gray-700">{{ $totalTrainer }}</p>
+            </div>
+        </div>
+
+        <!-- Modul Card -->
+        <div class="flex items-center p-4 bg-white rounded-lg shadow-xs border border-gray-100">
+            <div class="p-3 mr-4 text-yellow-500 bg-yellow-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+            </div>
+            <div>
+                <p class="mb-1 text-sm font-medium text-gray-600">Jumlah Modul</p>
+                <p class="text-2xl font-semibold text-gray-700">{{ $totalModule }}</p>
             </div>
         </div>
 
     </div>
 
-    <!-- Content Sections Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Live Data Preview Tables Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
-        <!-- Left Column: Modul Terkini Ditambah (Spans 2 columns) -->
-        <div class="lg:col-span-2 space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-base font-bold text-slate-900">Modul Terkini Ditambah</h2>
-                <a href="{{ route('admin.modul') }}" class="text-xs font-semibold text-indigo-600 hover:underline">Lihat Semua</a>
+        <!-- Recent Jurulatih Table -->
+        <div class="bg-white p-6 rounded-lg shadow-xs border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold text-gray-700">Jurulatih Terkini</h4>
+                <a href="{{ route('admin.jurulatih') }}" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
             </div>
-
-            <!-- Module Card -->
-            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-lines text-xl"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center space-x-2">
-                            <h3 class="font-bold text-slate-900 text-sm">m</h3>
-                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600">Keselamatan Siber</span>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-1">Oleh: Dr. Sarah Lee &bull; 21 hours ago</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center">
-                    <span class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-500 text-xs font-bold">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        <span>PDF</span>
-                    </span>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="w-full whitespace-no-wrap">
+                    <thead>
+                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                            <th class="px-4 py-3">Nama</th>
+                            <th class="px-4 py-3">Kategori Kategori</th>
+                            <th class="px-4 py-3">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y">
+                        @forelse($recentTrainers as $trainer)
+                            <tr class="text-gray-700 text-sm">
+                                <td class="px-4 py-3 font-medium">{{ $trainer->name }}</td>
+                                <td class="px-4 py-3">{{ $trainer->expertise_category }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">
+                                        {{ $trainer->rating ?? 'N/A' }} ⭐
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-3 text-center text-gray-500 text-sm">Tiada rekod jurulatih dijumpai.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Right Column: Lists Section -->
-        <div class="space-y-6">
-            
-            <!-- Senarai Fasilitator -->
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-bold text-slate-900">Senarai Fasilitator</h2>
-                    <a href="{{ route('admin.fasilitator') }}" class="text-xs font-semibold text-indigo-600 hover:underline">Lihat Semua</a>
-                </div>
-
-                <div class="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm space-y-4">
-                    <!-- Member 1 -->
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 font-bold text-xs flex items-center justify-center shrink-0">
-                            MO
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-slate-900 truncate">MOHAMAD HAIQAL HAQIMI BIN MOHD HAYAZI</h4>
-                            <p class="text-[11px] text-slate-400 truncate">haiqalhaqimi03@gmail.com</p>
-                        </div>
-                    </div>
-
-                    <!-- Member 2 -->
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 font-bold text-xs flex items-center justify-center shrink-0">
-                            MU
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-slate-900 truncate">MUHAMMAD SYAZWAN BIN MOHD SHUHAIMI</h4>
-                            <p class="text-[11px] text-slate-400 truncate">syazwandw@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
+        <!-- Recent PKS Table -->
+        <div class="bg-white p-6 rounded-lg shadow-xs border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-semibold text-gray-700">PKS Terkini</h4>
+                <a href="{{ route('admin.pks') }}" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
             </div>
-
-            <!-- Senarai Jurulatih -->
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-bold text-slate-900">Senarai Jurulatih</h2>
-                    <a href="{{ route('admin.jurulatih') }}" class="text-xs font-semibold text-indigo-600 hover:underline">Lihat Semua</a>
-                </div>
-
-                <div class="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 font-bold text-xs flex items-center justify-center shrink-0">
-                            DR
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h4 class="text-xs font-bold text-slate-900 truncate">Dr. Sarah Lee</h4>
-                            <p class="text-[11px] text-slate-400 truncate">sarah.lee@uni.my</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="w-full whitespace-no-wrap">
+                    <thead>
+                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                            <th class="px-4 py-3">Nama Syarikat / PKS</th>
+                            <th class="px-4 py-3">Tarikh Didaftar</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y">
+                        @forelse($recentPks as $pks)
+                            <tr class="text-gray-700 text-sm">
+                                <td class="px-4 py-3 font-medium">{{ $pks->name ?? $pks->company_name }}</td>
+                                <td class="px-4 py-3">{{ $pks->created_at ? $pks->created_at->format('d/m/Y') : '-' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="px-4 py-3 text-center text-gray-500 text-sm">Tiada rekod PKS dijumpai.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-
         </div>
 
     </div>
-
 </div>
 @endsection

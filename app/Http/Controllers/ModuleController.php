@@ -33,7 +33,7 @@ class ModuleController extends Controller
             $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
             
             // Upload to Supabase Storage 'modules' bucket
-            $path = $file->storeAs('uploads/pdfs', $filename, 'supabase');
+            $path = $file->storeAs('uploads/pdfs', $fileName, 'supabase');
 
             // Generate the correct native Supabase public URL
             $pdfUrl = "https://wothtkwgjnqjrmrweqzh.supabase.co/storage/v1/object/public/modules/" . $path;

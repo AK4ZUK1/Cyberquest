@@ -22,8 +22,20 @@
             <p class="text-xs font-bold text-[#524bf2] tracking-widest uppercase mt-1">Portal Pengguna</p>
         </div>
 
-        <!-- Login Form (Direct Admin Preview) -->
-        <form method="GET" action="{{ url('/admin/dashboard') }}" class="space-y-5">
+        <!-- Validation Errors Display -->
+        @if ($errors->any())
+            <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl">
+                <ul class="list-disc pl-4 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Real Login Form (Handled by AuthenticatedSessionController) -->
+        <form method="POST" action="{{ route('login') }}" class="space-y-5">
+            @csrf
 
             <!-- Email Input -->
             <div>
@@ -32,7 +44,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <i class="fa-regular fa-envelope text-sm"></i>
                     </div>
-                    <input type="email" id="email" name="email"
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
                         class="w-full pl-10 pr-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#524bf2] focus:bg-white text-sm"
                         placeholder="contoh@cyberquest.my">
                 </div>
@@ -45,7 +57,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <i class="fa-solid fa-lock text-sm"></i>
                     </div>
-                    <input type="password" id="password" name="password"
+                    <input type="password" id="password" name="password" required
                         class="w-full pl-10 pr-4 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#524bf2] focus:bg-white text-sm"
                         placeholder="••••••••••••">
                 </div>
@@ -54,7 +66,7 @@
             <!-- Remember Me & Forgot Password -->
             <div class="flex items-center justify-between text-sm pt-1">
                 <label class="flex items-center space-x-2 cursor-pointer">
-                    <input type="checkbox" name="remember" checked
+                    <input type="checkbox" name="remember"
                         class="w-4 h-4 text-[#524bf2] bg-gray-100 border-gray-300 rounded focus:ring-[#524bf2] accent-[#524bf2]">
                     <span class="text-gray-700 font-medium">Ingat saya</span>
                 </label>

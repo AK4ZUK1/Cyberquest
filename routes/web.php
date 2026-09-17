@@ -17,6 +17,7 @@ use App\Http\Controllers\TrainerController;
 Route::get('/', function () {
     return view('login');
 })->name('login');
+Route::post('/', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store']);
 
 // 2. Logout Action
 Route::post('/logout', function () {

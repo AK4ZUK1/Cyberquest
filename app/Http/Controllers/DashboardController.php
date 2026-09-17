@@ -12,6 +12,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // 0. Ensure only admins can access the admin dashboard
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
         // 1. Query dynamic record counts directly from Supabase
         $totalPks         = Pks::count();
         $totalFacilitator = Facilitator::count();

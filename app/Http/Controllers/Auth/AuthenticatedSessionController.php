@@ -7,21 +7,16 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Show the login page.
+     * Display the login view.
      */
-    public function create(Request $request): Response
+    public function create(): View
     {
-        return Inertia::render('auth/login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => $request->session()->get('status'),
-        ]);
+        return view('auth.login');
     }
 
     /**
@@ -33,7 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard'));
+        } elseif ($user->role === 'facilitator') {
+            return redirect()->intended(route('facilitator.dashboard'));
+        }
+
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
@@ -44,6 +47,7 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
         return redirect('/');

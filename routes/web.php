@@ -23,8 +23,8 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-// 3. Admin Group Routes
-Route::prefix('admin')->as('admin.')->group(function () {
+// 3. Admin Group Routes (Protected by auth middleware)
+Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
 
     // Dashboard (Handled dynamically via DashboardController)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -45,7 +45,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::put('/pks/{pks}', [PksController::class, 'update'])->name('pks.update');
     Route::delete('/pks/{pks}', [PksController::class, 'destroy'])->name('pks.destroy');
 
-    // Fasilitator Routes
+    // Fasilitator Routes (Admin management of facilitators)
     Route::get('/fasilitator', [FacilitatorController::class, 'index'])->name('fasilitator');
     Route::get('/fasilitator/tambah', [FacilitatorController::class, 'create'])->name('fasilitator.create');
     Route::post('/fasilitator', [FacilitatorController::class, 'store'])->name('fasilitator.store');
@@ -64,4 +64,11 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::put('/modul/{module}', [ModuleController::class, 'update'])->name('modul.update');
     Route::delete('/modul/{module}', [ModuleController::class, 'destroy'])->name('modul.destroy');
 
+});
+
+// 4. Facilitator Group Routes (Protected by auth middleware)
+Route::middleware(['auth'])->prefix('facilitator')->as('facilitator.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('facilitator.dashboard');
+    })->name('dashboard');
 });

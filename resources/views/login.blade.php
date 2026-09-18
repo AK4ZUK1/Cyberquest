@@ -22,6 +22,14 @@
             <p class="text-xs font-bold text-[#524bf2] tracking-widest uppercase mt-1">Portal Pengguna</p>
         </div>
 
+        <!-- Success Flash Message Notification -->
+        @if (session('success'))
+            <div class="mb-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs rounded-xl flex items-start space-x-2">
+                <i class="fa-solid fa-circle-check mt-0.5 text-sm flex-shrink-0"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
         <!-- Validation Errors Display -->
         @if ($errors->any())
             <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl">

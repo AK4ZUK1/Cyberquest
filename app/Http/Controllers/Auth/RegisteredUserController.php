@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -37,14 +36,12 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'pks', // Fixed: assigned 'pks' role instead of facilitator
+            'role' => 'pks',
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        // Redirect directly to the PKS mobile dashboard
-        return redirect()->route('pks.dashboard');
+        // Do not auto-login. Redirect to login with a success flash message.
+        return redirect()->route('login')->with('success', 'Pendaftaran akaun PKS berjaya! Sila log masuk menggunakan emel dan kata laluan anda.');
     }
 }

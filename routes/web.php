@@ -25,10 +25,8 @@ Route::post('/', [AuthenticatedSessionController::class, 'store']);
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 
-// 3. Logout Action
-Route::post('/logout', function () {
-    return redirect('/');
-})->name('logout');
+// 3. Logout Action (Handled via AuthenticatedSessionController)
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 // 4. Admin Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
@@ -68,6 +66,11 @@ Route::middleware(['auth'])->prefix('pks')->as('pks.')->group(function () {
     Route::get('/dashboard', function () {
         return view('pks.dashboard');
     })->name('dashboard');
+
+    // PKS Profile Route
+    Route::get('/profile', function () {
+        return view('pks.profile');
+    })->name('profile');
 });
 
 // 6. Facilitator Group Routes (Protected by auth middleware)

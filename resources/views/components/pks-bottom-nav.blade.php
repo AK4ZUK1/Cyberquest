@@ -24,7 +24,7 @@
     </a>
 
     <!-- Profil -->
-    <a href="#" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gray-600">
+    <a href="{{ route('pks.profile') }}" class="flex flex-col items-center space-y-1 {{ request()->routeIs('pks.profile') ? 'text-[#524bf2]' : 'text-gray-400 hover:text-gray-600' }}">
         <i class="fa-solid fa-user text-lg"></i>
         <span class="text-[10px] font-medium">Profil</span>
     </a>

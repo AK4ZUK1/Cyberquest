@@ -86,7 +86,7 @@
         <!-- SME Registration Links -->
         <div class="mt-8 pt-6 border-t border-gray-100 text-center space-y-3">
             <p class="text-xs text-gray-500 font-medium">Belum mempunyai akaun PKS?</p>
-            <a href="#" 
+            <a href="{{ route('register') }}" 
                 class="inline-flex items-center justify-center w-full py-2.5 px-4 border border-[#524bf2] text-[#524bf2] hover:bg-indigo-50 font-semibold rounded-xl text-sm transition-colors duration-200 space-x-2">
                 <i class="fa-solid fa-building-user text-xs"></i>
                 <span>Daftar Akaun PKS / SME</span>

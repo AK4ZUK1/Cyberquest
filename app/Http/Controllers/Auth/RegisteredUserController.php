@@ -14,11 +14,17 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Display the registration view.
+     */
     public function create(): View
     {
         return view('register');
     }
 
+    /**
+     * Handle an incoming registration request.
+     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -27,18 +33,18 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Create the PKS user account securely
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'pks', // Assigns the PKS role for proper redirection
+            'role' => 'pks', // Fixed: assigned 'pks' role instead of facilitator
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
+        // Redirect directly to the PKS mobile dashboard
         return redirect()->route('pks.dashboard');
     }
 }

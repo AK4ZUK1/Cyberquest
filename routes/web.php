@@ -32,18 +32,9 @@ Route::post('/logout', function () {
 
 // 4. Admin Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
-
-    // Dashboard (Handled dynamically via DashboardController)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Profile & Settings
-    Route::get('/profile', function () {
-        return view('admin.profile');
-    })->name('profile');
-
-    Route::get('/settings', function () {
-        return view('admin.settings');
-    })->name('settings');
+    Route::get('/profile', function () { return view('admin.profile'); })->name('profile');
+    Route::get('/settings', function () { return view('admin.settings'); })->name('settings');
 
     // Pengurusan PKS Routes
     Route::get('/pks', [PksController::class, 'index'])->name('pks');
@@ -52,7 +43,7 @@ Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
     Route::put('/pks/{pks}', [PksController::class, 'update'])->name('pks.update');
     Route::delete('/pks/{pks}', [PksController::class, 'destroy'])->name('pks.destroy');
 
-    // Fasilitator Routes (Admin management of facilitators)
+    // Fasilitator Routes
     Route::get('/fasilitator', [FacilitatorController::class, 'index'])->name('fasilitator');
     Route::get('/fasilitator/tambah', [FacilitatorController::class, 'create'])->name('fasilitator.create');
     Route::post('/fasilitator', [FacilitatorController::class, 'store'])->name('fasilitator.store');
@@ -70,10 +61,16 @@ Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
     Route::post('/modul', [ModuleController::class, 'store'])->name('modul.store');
     Route::put('/modul/{module}', [ModuleController::class, 'update'])->name('modul.update');
     Route::delete('/modul/{module}', [ModuleController::class, 'destroy'])->name('modul.destroy');
-
 });
 
-// 5. Facilitator Group Routes (Protected by auth middleware)
+// 5. PKS Group Routes (Protected by auth middleware)
+Route::middleware(['auth'])->prefix('pks')->as('pks.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pks.dashboard');
+    })->name('dashboard');
+});
+
+// 6. Facilitator Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('facilitator')->as('facilitator.')->group(function () {
     Route::get('/dashboard', function () {
         return view('facilitator.dashboard');

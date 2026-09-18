@@ -6,6 +6,8 @@ use App\Http\Controllers\FacilitatorController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PksController;
 use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +19,18 @@ use App\Http\Controllers\TrainerController;
 Route::get('/', function () {
     return view('login');
 })->name('login');
-Route::post('/', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store']);
+Route::post('/', [AuthenticatedSessionController::class, 'store']);
 
-// 2. Logout Action
+// 2. Registration Routes
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
+
+// 3. Logout Action
 Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-// 3. Admin Group Routes (Protected by auth middleware)
+// 4. Admin Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
 
     // Dashboard (Handled dynamically via DashboardController)
@@ -67,7 +73,7 @@ Route::middleware(['auth'])->prefix('admin')->as('admin.')->group(function () {
 
 });
 
-// 4. Facilitator Group Routes (Protected by auth middleware)
+// 5. Facilitator Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('facilitator')->as('facilitator.')->group(function () {
     Route::get('/dashboard', function () {
         return view('facilitator.dashboard');

@@ -9,13 +9,13 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 min-h-screen flex justify-center font-sans pb-24">
+<body class="bg-gray-100 min-h-screen flex justify-center font-sans pb-28">
 
-    <!-- Mobile Frame Container (Optimized for Phone UI) -->
+    <!-- Mobile Frame Container -->
     <div class="w-full max-w-md bg-gray-50 min-h-screen relative shadow-xl flex flex-col">
 
         <!-- Top Header Banner -->
-        <div class="bg-[#524bf2] px-6 pt-8 pb-16 rounded-b-[35px] text-white relative shadow-md">
+        <div class="bg-[#524bf2] px-6 pt-8 pb-12 rounded-b-[35px] text-white shadow-md">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-xl font-bold tracking-wide">Laman Utama</h1>
                 <button class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/25 transition">
@@ -30,14 +30,14 @@
                     <h2 class="text-lg font-bold mt-0.5">{{ auth()->user()->name ?? 'Kedai Maju' }} 👋</h2>
                     <p class="text-[11px] text-indigo-100 mt-1 leading-relaxed">Mari jadikan perniagaan anda lebih selamat hari ini.</p>
                 </div>
-                <div class="text-indigo-300 text-3xl pl-2">
+                <div class="text-indigo-200 text-3xl pl-2">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
             </div>
         </div>
 
         <!-- Main Content Area -->
-        <div class="px-5 -mt-8 space-y-6 flex-1">
+        <div class="px-5 -mt-5 space-y-5 flex-1">
 
             <!-- Kemajuan Saya (Overall Progress Card) -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
@@ -45,9 +45,9 @@
                     <h3 class="text-sm font-bold text-gray-800">Kemajuan Saya</h3>
                     <span class="text-lg font-extrabold text-[#524bf2]">10%</span>
                 </div>
-                <!-- Progress Bar -->
+                <!-- Corrected Progress Bar (Green partial fill + grey track) -->
                 <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden mb-2">
-                    <div class="bg-[#524bf2] h-full rounded-full w-[10]"></div>
+                    <div class="bg-emerald-500 h-full rounded-full w-[10%]" style="width: 10%;"></div>
                 </div>
                 <p class="text-[11px] text-gray-400 font-medium">Teruskan usaha!</p>
             </div>
@@ -104,7 +104,7 @@
         </div>
 
         <!-- Bottom Mobile Navigation Bar -->
-        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2.5 px-6 flex justify-between items-center shadow-lg rounded-t-2xl">
+        <div class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-100 py-2.5 px-6 flex justify-between items-center shadow-lg rounded-t-2xl z-50">
             <a href="#" class="flex flex-col items-center text-[#524bf2]">
                 <i class="fa-solid fa-house text-base"></i>
                 <span class="text-[10px] font-bold mt-1">Utama</span>

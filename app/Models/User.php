@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Added so the role can be saved properly during registration
     ];
 
     /**

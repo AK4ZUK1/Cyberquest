@@ -7,6 +7,7 @@ use App\Models\Facilitator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Log;
 
 class PksController extends Controller
 {
@@ -56,16 +57,21 @@ class PksController extends Controller
             'role'     => 'pks',
         ]);
 
-        // 3. Generate the activation/password-reset token and send the setup email
-        $token = Password::broker()->createToken($user);
-        $user->sendPasswordResetNotification($token);
+        // 3. Generate the activation token and attempt to send the setup email safely
+        try {
+            $token = Password::broker()->createToken($user);
+            $user->sendPasswordResetNotification($token);
+        } catch (\Exception $e) {
+            // Catches Render's SMTP block error so the app continues smoothly
+            Log::error('SMTP Email Delivery Failed: ' . $e->getMessage());
+        }
 
         // Increment PKS assigned counter on selected facilitator
         if ($pks->facilitator_id) {
             Facilitator::where('id', $pks->facilitator_id)->increment('pks_assigned');
         }
 
-        return redirect()->route('admin.pks')->with('success', 'PKS berjaya ditambah dan emel pengaktifan telah dihantar!');
+        return redirect()->route('admin.pks')->with('success', 'PKS berjaya ditambah!');
     }
 
     public function update(Request $request, Pks $pks)

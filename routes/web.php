@@ -8,6 +8,7 @@ use App\Http\Controllers\PksController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PksActivationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,15 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 Route::post('/', [AuthenticatedSessionController::class, 'store']);
+
+// Password Activation / Reset Routes
+Route::get('/reset-password/{token}', [PksActivationController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [PksActivationController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.store');
 
 // 2. Registration Routes
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');

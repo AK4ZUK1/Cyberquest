@@ -19,14 +19,17 @@ class User extends Authenticatable
     {
     parent::booted();
 
+    protected static function booted()
+    {
+    parent::booted();
+
     static::created(function ($user) {
         if ($user->role === 'pks') {
             \App\Models\Pks::firstOrCreate(
-                ['email' => $user->email], // Match by email to avoid duplicates
+                ['email' => $user->email], // Match by email
                 [
-                    'user_id'      => $user->id,
-                    'company_name' => $user->name, // Using user name as company name placeholder
-                    'owner_name'   => $user->name, // Using user name as owner name placeholder
+                    'company_name' => $user->name,
+                    'owner_name'   => $user->name,
                     'phone_number' => '-',
                     'sector'       => 'Belum Tetap',
                     'status'       => 'Aktif',

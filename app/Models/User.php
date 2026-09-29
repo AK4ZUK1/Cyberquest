@@ -17,26 +17,22 @@ class User extends Authenticatable
      */
     protected static function booted()
     {
-    parent::booted();
+        parent::booted();
 
-    protected static function booted()
-    {
-    parent::booted();
-
-    static::created(function ($user) {
-        if ($user->role === 'pks') {
-            \App\Models\Pks::firstOrCreate(
-                ['email' => $user->email], // Match by email
-                [
-                    'company_name' => $user->name,
-                    'owner_name'   => $user->name,
-                    'phone_number' => '-',
-                    'sector'       => 'Belum Tetap',
-                    'status'       => 'Aktif',
-                ]
-            );
-        }
-    });
+        static::created(function ($user) {
+            if ($user->role === 'pks') {
+                \App\Models\Pks::firstOrCreate(
+                    ['email' => $user->email], // Match by email
+                    [
+                        'company_name' => $user->name,
+                        'owner_name'   => $user->name,
+                        'phone_number' => '-',
+                        'sector'       => 'Belum Tetap',
+                        'status'       => 'Aktif',
+                    ]
+                );
+            }
+        });
     }
 
     /**

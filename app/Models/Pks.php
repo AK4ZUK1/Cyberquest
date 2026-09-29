@@ -12,6 +12,7 @@ class Pks extends Model
     protected $table = 'pks';
 
     protected $fillable = [
+        'user_id',
         'company_name',
         'owner_name',
         'phone_number',
@@ -20,6 +21,11 @@ class Pks extends Model
         'status',
         'facilitator_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function facilitator()
     {

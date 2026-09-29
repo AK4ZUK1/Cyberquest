@@ -13,6 +13,30 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted()
+    {
+    parent::booted();
+
+    static::created(function ($user) {
+        if ($user->role === 'pks') {
+            \App\Models\Pks::firstOrCreate(
+                ['email' => $user->email], // Match by email to avoid duplicates
+                [
+                    'user_id'      => $user->id,
+                    'company_name' => $user->name, // Using user name as company name placeholder
+                    'owner_name'   => $user->name, // Using user name as owner name placeholder
+                    'phone_number' => '-',
+                    'sector'       => 'Belum Tetap',
+                    'status'       => 'Aktif',
+                ]
+            );
+        }
+    });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

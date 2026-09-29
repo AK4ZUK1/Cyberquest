@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 
@@ -14,6 +15,14 @@ class PksActivationController extends Controller
     // Show the form to set the password
     public function create(Request $request, $token)
     {
+        // Automatically clear any existing logged-in session (like an admin session) 
+        // to prevent the guest middleware from redirecting away from the activation page.
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         return view('auth.set-password', ['token' => $token, 'email' => $request->email]);
     }
 

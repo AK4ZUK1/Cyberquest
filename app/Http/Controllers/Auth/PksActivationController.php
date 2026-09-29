@@ -12,7 +12,7 @@ use Illuminate\Auth\Events\PasswordReset;
 class PksActivationController extends Controller
 {
     // Show the form to set the password
-    fn public function create(Request $request, $token)
+    public function create(Request $request, $token)
     {
         return view('auth.set-password', ['token' => $token, 'email' => $request->email]);
     }

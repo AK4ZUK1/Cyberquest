@@ -30,7 +30,7 @@
                 <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-indigo-100 font-medium">Selamat Pagi,</p>
-                        <h2 class="text-base font-bold text-white mt-0.5">Ali Fried Chicken 👋</h2>
+                        <h2 class="text-base font-bold text-white mt-0.5">{{ auth()->user()->business_name ?? auth()->user()->name }} 👋</h2>
                         <p class="text-[11px] text-indigo-200 mt-1">Mari jadikan perniagaan anda lebih selamat hari ini.</p>
                     </div>
                     <div class="text-white text-2xl pl-2">

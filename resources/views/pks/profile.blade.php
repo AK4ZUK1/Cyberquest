@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <h2 class="text-lg font-bold text-gray-900 leading-snug">{{ Auth::user()->name ?? 'Kedai Maju' }}</h2>
-                    <p class="text-xs text-gray-500 mt-0.5">Peruncitan / Kedai</p>
+                    <p class="text-xs text-gray-500 mt-0.5">{{ Auth::user()->business_category ?? Auth::user()->category ?? 'Kategori Perniagaan' }}</p>
                 </div>
             </div>
 

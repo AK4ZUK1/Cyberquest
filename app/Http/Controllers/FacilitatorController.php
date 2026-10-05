@@ -77,4 +77,24 @@ class FacilitatorController extends Controller
 
         return redirect()->route('admin.fasilitator')->with('success', 'Fasilitator berjaya dipadam!');
     }
+
+    public function dashboard()
+    {
+        $user = auth()->user();
+    
+        // Find the facilitator profile linked to this user's email or user_id
+        $facilitator = Facilitator::where('email', $user->email)->first();
+
+        // Get live PKS assigned to this facilitator (assuming you store facilitator's name or ID in your PKS table)
+        $assignedPks = collect();
+        $pksCount = 0;
+
+        if ($facilitator) {
+            // Adjust 'facilitator_name' or 'facilitator_id' based on your actual PKS table column schema
+            $assignedPks = Pks::where('facilitator_name', $facilitator->name)->get();
+            $pksCount = $assignedPks->count();
+        }
+
+        return view('facilitator.dashboard', compact('user', 'facilitator', 'assignedPks', 'pksCount'));
+    }
 }

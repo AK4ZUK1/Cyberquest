@@ -85,7 +85,5 @@ Route::middleware(['auth'])->prefix('pks')->as('pks.')->group(function () {
 
 // 6. Facilitator Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('facilitator')->as('facilitator.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('facilitator.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [FacilitatorController::class, 'dashboard'])->name('dashboard');
 });

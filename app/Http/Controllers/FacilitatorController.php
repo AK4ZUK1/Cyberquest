@@ -42,7 +42,7 @@ class FacilitatorController extends Controller
 
             // 2. Create the facilitator record
             Facilitator::create([
-                'user_id' => $user->id, // Uncomment if you have user_id in your facilitators table
+                'user_id' => $user->id, // Links to the users table
                 'name' => $validated['name'],
                 'phone_number' => $validated['phone_number'],
                 'email' => $validated['email'],
@@ -83,16 +83,15 @@ class FacilitatorController extends Controller
     {
         $user = auth()->user();
     
-        // Find the facilitator profile linked to this user's email or user_id
+        // Find the facilitator profile linked to this user's email
         $facilitator = Facilitator::where('email', $user->email)->first();
 
-        // Get live PKS assigned to this facilitator (assuming you store facilitator's name or ID in your PKS table)
         $assignedPks = collect();
         $pksCount = 0;
 
         if ($facilitator) {
-            // Adjust 'facilitator_name' or 'facilitator_id' based on your actual PKS table column schema
-            $assignedPks = Pks::where('facilitator_name', $facilitator->name)->get();
+            // Updated to query using facilitator_id to match PksController schema
+            $assignedPks = Pks::where('facilitator_id', $facilitator->id)->get();
             $pksCount = $assignedPks->count();
         }
 

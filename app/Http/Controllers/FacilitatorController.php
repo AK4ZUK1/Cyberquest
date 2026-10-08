@@ -37,7 +37,7 @@ class FacilitatorController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'role' => 'facilitator', // Labeling the role
-                'password' => null,     // Null password as requested
+                'password' => null,    // Null password as requested
             ]);
 
             // 2. Create the facilitator record
@@ -83,14 +83,16 @@ class FacilitatorController extends Controller
     {
         $user = auth()->user();
     
-        // Find the facilitator profile linked to this user's email
-        $facilitator = Facilitator::where('email', $user->email)->first();
+        // Find the facilitator profile using the robust user_id relationship with an email fallback
+        $facilitator = Facilitator::where('user_id', $user->id)
+            ->orWhere('email', $user->email)
+            ->first();
 
         $assignedPks = collect();
         $pksCount = 0;
 
         if ($facilitator) {
-            // Updated to query using facilitator_id to match PksController schema
+            // Fetch live assignments directly from the database table using facilitator_id
             $assignedPks = Pks::where('facilitator_id', $facilitator->id)->get();
             $pksCount = $assignedPks->count();
         }

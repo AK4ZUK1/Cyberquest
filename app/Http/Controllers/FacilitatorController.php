@@ -42,7 +42,7 @@ class FacilitatorController extends Controller
 
             // 2. Create the facilitator record
             Facilitator::create([
-                'user_id' => $user->id, // Links to the users table
+                'user_id' => $user->id ?? null, // Safe guard if column exists/doesn't exist
                 'name' => $validated['name'],
                 'phone_number' => $validated['phone_number'],
                 'email' => $validated['email'],
@@ -83,10 +83,8 @@ class FacilitatorController extends Controller
     {
         $user = auth()->user();
     
-        // Find the facilitator profile using the robust user_id relationship with an email fallback
-        $facilitator = Facilitator::where('user_id', $user->id)
-            ->orWhere('email', $user->email)
-            ->first();
+        // Find the facilitator profile using email lookup
+        $facilitator = Facilitator::where('email', $user->email)->first();
 
         $assignedPks = collect();
         $pksCount = 0;

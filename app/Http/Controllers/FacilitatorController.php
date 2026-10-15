@@ -97,4 +97,12 @@ class FacilitatorController extends Controller
 
         return view('facilitator.dashboard', compact('user', 'facilitator', 'assignedPks', 'pksCount'));
     }
+
+    public function showSmeDetail($id)
+    {
+        // Fetch the SME from the database, or fail with a 404 error if not found
+        $sme = Sme::findOrFail($id);
+
+        return view('facilitator.sme-detail', compact('sme'));
+    }
 }

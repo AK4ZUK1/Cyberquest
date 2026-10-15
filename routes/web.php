@@ -86,4 +86,7 @@ Route::middleware(['auth'])->prefix('pks')->as('pks.')->group(function () {
 // 6. Facilitator Group Routes (Protected by auth middleware)
 Route::middleware(['auth'])->prefix('facilitator')->as('facilitator.')->group(function () {
     Route::get('/dashboard', [FacilitatorController::class, 'dashboard'])->name('dashboard');
+    
+    // SME Detail Route (Accessible by clicking SME on Facilitator Dashboard)
+    Route::get('/sme/{id}', [FacilitatorController::class, 'showSmeDetail'])->name('sme.detail');
 });

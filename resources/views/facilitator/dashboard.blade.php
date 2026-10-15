@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard Fasilitator</title>
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 h-full flex justify-center items-center font-sans antialiased">
 
-    <!-- Mobile Frame Container (Mirrors PKS structure exactly) -->
+    <!-- Mobile Frame Container -->
     <div class="w-full max-w-md h-full sm:h-[90vh] sm:rounded-3xl bg-gray-50 shadow-2xl flex flex-col overflow-hidden relative border border-gray-200">
 
         <!-- Scrollable Content Area -->
         <div class="flex-1 overflow-y-auto pb-24">
             
-            <!-- Top Header Section (Orange background with curved bottom) -->
+            <!-- Top Header Section (Orange background) -->
             <div class="bg-orange-600 text-white px-6 pt-8 pb-12 rounded-b-[30px] relative">
                 <div class="flex justify-between items-center mb-6">
                     <!-- Profile Icon / Avatar -->
@@ -33,14 +33,14 @@
                 </div>
 
                 <p class="text-sm text-orange-100 mb-1">Selamat pagi,</p>
-                <h1 class="text-xl font-bold uppercase tracking-wide mb-2">{{ $user->name }}!</h1>
+                <h1 class="text-xl font-bold uppercase tracking-wide mb-2">{{ $user->name ?? 'Fasilitator' }}!</h1>
                 <p class="text-xs text-orange-100">Terus belajar, membimbing, dan memberi impak.</p>
             </div>
 
             <!-- Main Content Body -->
             <div class="px-4 -mt-6 relative z-10 space-y-4">
                 
-                <!-- Overview Section Card -->
+                <!-- Overview Section Card (Refactored to mirror PKS's currently empty Gambaran) -->
                 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="font-bold text-gray-800 text-sm">Gambaran Keseluruhan</h2>
@@ -50,16 +50,16 @@
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-3 gap-3 text-center">
                         <div class="bg-orange-50/40 border border-orange-100 rounded-xl p-3 flex flex-col justify-center">
-                            <span class="text-xl font-bold text-orange-600">{{ $pksCount }}</span>
+                            <span class="text-xl font-bold text-orange-600">{{ $pksCount ?? $assignedPks->count() }}</span>
                             <span class="text-[11px] text-gray-500 mt-1 font-medium">PKS Ditugaskan</span>
                         </div>
                         <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 flex flex-col justify-center">
-                            <span class="text-xl font-bold text-gray-800">0</span>
-                            <span class="text-[11px] text-gray-500 mt-1 font-medium">Modul Selesai</span>
+                            <span class="text-xl font-bold text-gray-400">0</span>
+                            <span class="text-[11px] text-gray-400 mt-1 font-medium">Modul Selesai</span>
                         </div>
                         <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 flex flex-col justify-center">
-                            <span class="text-xl font-bold text-gray-800">0</span>
-                            <span class="text-[11px] text-gray-500 mt-1 font-medium">Kemas Kini</span>
+                            <span class="text-xl font-bold text-gray-400">0</span>
+                            <span class="text-[11px] text-gray-400 mt-1 font-medium">Kemas Kini</span>
                         </div>
                     </div>
                 </div>
@@ -78,15 +78,20 @@
                     @else
                         <div class="space-y-3">
                             @foreach($assignedPks as $pks)
-                                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
-                                    <div>
-                                        <h3 class="font-bold text-gray-800 text-sm">{{ $pks->company_name }}</h3>
-                                        <p class="text-xs text-gray-500">Pemilik: {{ $pks->owner_name }} | Tel: {{ $pks->phone_number }}</p>
+                                <!-- Wrapped in Link to open SME Detail view -->
+                                <a href="{{ route('facilitator.sme.detail', $pks->id) }}" class="block bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:border-orange-200 transition-all active:scale-[0.99]">
+                                    <div class="flex items-center justify-between">
+                                        <div class="space-y-1">
+                                            <h3 class="font-bold text-gray-800 text-sm">{{ $pks->company_name ?? $pks->name }}</h3>
+                                            <p class="text-xs text-gray-500">
+                                                Pemilik: {{ $pks->owner_name ?? '-' }} | Tel: {{ $pks->phone_number ?? $pks->phone ?? '-' }}
+                                            </p>
+                                        </div>
+                                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ ($pks->status ?? 'Aktif') == 'Aktif' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700' }}">
+                                            {{ $pks->status ?? 'Aktif' }}
+                                        </span>
                                     </div>
-                                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $pks->status == 'Aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                                        {{ $pks->status }}
-                                    </span>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     @endif

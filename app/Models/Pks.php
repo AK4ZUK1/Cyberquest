@@ -20,13 +20,21 @@ class Pks extends Model
         'sector',
         'status',
         'facilitator_id',
+        'description', // Added to support the profile description tab view
+        'address',     // Added to support the location tab view
     ];
 
+    /**
+     * Relationship: A PKS belongs to a login User account.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relationship: A PKS is assigned to a Facilitator.
+     */
     public function facilitator()
     {
         return $this->belongsTo(Facilitator::class, 'facilitator_id');

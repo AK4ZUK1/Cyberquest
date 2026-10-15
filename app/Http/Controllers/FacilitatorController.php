@@ -100,8 +100,8 @@ class FacilitatorController extends Controller
 
     public function showSmeDetail($id)
     {
-        // Fetch the SME from the database, or fail with a 404 error if not found
-        $sme = Sme::findOrFail($id);
+        // Fetch the PKS record from the database using the Pks model
+        $sme = Pks::findOrFail($id);
 
         return view('facilitator.sme-detail', compact('sme'));
     }
